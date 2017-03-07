@@ -16,6 +16,55 @@
 			<link rel="stylesheet" href="css/style-desktop.css" />
 		</noscript>
 	</head>
+	<script type="text/javascript">
+		var Member = function(key, name, img) {
+			this.key = key;
+			this.name = name;
+			this.img = img;
+		}
+		var members = [
+			new Member(1, "秋元真夏", "images/nogi_prof/akimotomanatsu_prof.jpg"),
+			new Member(2, "生田絵梨花", "images/nogi_prof/ikutaerika_prof.jpg"),
+			new Member(3, "生駒里奈", "images/nogi_prof/ikomarina_prof.jpg"),
+			new Member(4, "伊藤かりん", "images/nogi_prof/itoukarin_prof.jpg"),
+			new Member(5, "伊藤純奈", "images/nogi_prof/itoujunna_prof.jpg")
+		];
+		var sortedMember = [];
+		var member1, member2;
+		function battle(){
+			var r = Math.floor(Math.random() * members.length);
+			member1 = members[r];
+			members.splice(r, 1)
+			r = Math.floor(Math.random() * members.length);
+			member2 = members[r];
+			members.splice(r, 1)
+		}
+
+		function img1Click() {
+			updateDisplay(members[0], members[1]);
+	    //alert("クリックされました");
+			battle();
+	  }
+		function img2Click() {
+	    //alert("クリックされました");
+			battle();
+	  }
+		function img2Click() {
+	    //alert("クリックされました");
+			battle();
+	  }
+		function updateDisplay(member1, member2) {
+			var mem1Name = document.getElementById("member1_name");
+			mem1Name.innerHTML = member1.name;
+			var mem2Name = document.getElementById("member2_name");
+			mem2Name.innerHTML = member2.name;
+			var mem1Img = document.getElementById("member1_img");
+			mem1Img.src = member1.img;
+			var mem2Img = document.getElementById("member2_img");
+			mem2Img.src = member2.img;
+		}
+
+  </script>
 	<body>
 
 	<!-- Header -->
@@ -51,22 +100,22 @@
 						<table border="10px" border-color"#0000000">
 						<tr>
 							<td>
-								秋元真夏
+								<div id="member1_name">秋元真夏</div>
 							</td>
 							<td>
-								斎藤飛鳥
+								<div id="member2_name">斎藤飛鳥</div>
 							</td>
 						</tr>
 							<tr>
 								<td>
-									<a href="#" class="image nogi"><img src="images/nogi_prof/akimotomanatsu_prof.jpg" alt=""></a>
+									<a href ="JavaScript:img1Click()" class="image nogi"><img id="member1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a>
 								</td>
 								<td>
-									<a href="#" class="image nogi"><img src="images/nogi_prof/saitouasuka_prof.jpg" alt=""></a>
+									<a href ="JavaScript:img2Click()" class="image nogi"><img id="member2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a>
 								</td>
 							</tr>
 						</table>
-						<a href="#" class="button button-style1">drow</a>
+						<a href="JavaScript:drowClick()" class="button button-style1">drow</a>
 					</section>
 				</div>
 
