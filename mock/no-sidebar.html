@@ -36,7 +36,17 @@
 			new Member(2, "生田絵梨花", "images/nogi_prof/ikutaerika_prof.jpg"),
 			new Member(3, "生駒里奈", "images/nogi_prof/ikomarina_prof.jpg"),
 			new Member(4, "伊藤かりん", "images/nogi_prof/itoukarin_prof.jpg"),
-			new Member(5, "伊藤純奈", "images/nogi_prof/itoujunna_prof.jpg")
+			new Member(5, "伊藤純奈", "images/nogi_prof/itoujunna_prof.jpg"),
+			new Member(6, "伊藤万理華", "images/nogi_prof/itoumarika_prof.jpg"),
+			new Member(7, "井上小百合", "images/nogi_prof/inouesayuri_prof.jpg"),
+			new Member(8, "衛藤美彩", "images/nogi_prof/etoumisa_prof.jpg"),
+			new Member(9, "川後陽菜", "images/nogi_prof/kawagohina_prof.jpg"),
+			new Member(10, "川村真洋", "images/nogi_prof/kawamuramahiro_prof.jpg"),
+			new Member(11, "北野日奈子", "images/nogi_prof/kitanohinako_prof.jpg"),
+			new Member(12, "斎藤飛鳥", "images/nogi_prof/saitouasuka_prof.jpg"),
+			new Member(13, "斎藤ちはる", "images/nogi_prof/saitouchiharu_prof.jpg"),
+			new Member(999, "深川麻衣", "images/nogi_prof/fukagawamai_prof.jpg"),
+			new Member(998, "橋本奈々未", "images/nogi_prof/hashimotonanami_prof.jpg")
 		];
 		function init() {
 			members = shuffle(members);
@@ -82,10 +92,8 @@
 			var isPushed = false;
 			if (tmp1.max == tmp1.min) {
 				if (isDrow) {
-					alert("drow fixed!");
 					sortedMember[tmp1.min].push(tmp1.member);
 				} else {
-					alert("fixed!");
 					// it means fixed rank
 					sortedMember.splice(tmp1.min, 0, [tmp1.member]);
 				}
@@ -106,9 +114,7 @@
 			return false;
 		}
 		function prepareNextBattle() {
-			finishedSort();
 			var nextTargetRank = tmp1.battleRank;
-			alert(nextTargetRank);
 			updateDisplay(tmp1.member, sortedMember[nextTargetRank][0]);
 		}
 		function finishedSort() {
