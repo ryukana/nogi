@@ -17,19 +17,14 @@
 		</noscript>
 	</head>
 	<script type="text/javascript">
-	var sortedMember = [];
-	var tmp1;
-	var cnt;
 		var Member = function(key, name, img) {
 			this.key = key;
 			this.name = name;
 			this.img = img;
 		}
-		var TempMember = function(member, battleRank, max, min) {
-			this.member = member;
-			this.battleRank = battleRank;
-			this.max = max;
-			this.min = min;
+		var Cordinates = function() {
+			this.x = 0;
+			this.y = 0;
 		}
 		var members = [
 			new Member(1, "秋元真夏", "images/nogi_prof/akimotomanatsu_prof.jpg"),
@@ -38,13 +33,72 @@
 			new Member(4, "伊藤かりん", "images/nogi_prof/itoukarin_prof.jpg"),
 			new Member(5, "伊藤純奈", "images/nogi_prof/itoujunna_prof.jpg")
 		];
-		function init() {
-			members = shuffle(members);
-			var tmpChampion = members.pop();
-			sortedMember[0] = [tmpChampion];
-			var tmpChallenger = members.pop();
-			tmp1 = new TempMember(tmpChallenger, 0, sortedMember.length, 0);
-			updateDisplay(tmpChallenger, tmpChampion);
+		var c = new Cordinates();
+		var yArray = [];
+		var member1, member2;
+		function initSpecialFirstBattle() {
+
+			// TODO もし奇数の要素数だった場合、最後の一人を手前の一人とバトルさせて手前の配列に混ぜ込む。
+		}
+		function initArray() {
+			var yMax = 0, xMax = 1;
+			for (var i = 1; xMax >= members.length; i++) {
+				xMax = xMax*2;
+				yMax = i;
+			}
+			for(var i = 0; i < yMax; i++) {
+			  
+			}
+		}
+		function stepExecSort(winner, isWinnerLeft){
+			// 上の座標に勝者を移動
+			var pushXArray = yArray[c.y-1];
+			var pushArray = pushXArray[c.x/2];
+			winnersArray.push[winner];
+			// 勝者を下のリストから削除
+			var shiftXArray = yArray[c.y];
+			var shiftWinnerArray;
+			var shiftLoserArray;
+			if (isWinnerLeft) {
+				shiftWinnerArray = shiftXArray[c.x];
+				shiftLoserArray = shiftXArray[c.x + 1];
+			} else {
+				shiftWinnerArray = shiftXArray[c.x + 1];
+				shiftLoserArray = shiftXArray[c.x];
+			}
+			shiftWinnerArray.shift();
+			// もし勝者を削除した配列がからだったら、対戦相手側の配列を上の座標に移動
+			if (shiftWinnerArray.length == 0) {
+				pushArray = pushArray.concat(shiftLoserArray);
+				shiftLoserArray = [];
+			}
+
+			// 座標の移動
+			if (shiftLoserArray.length == 0) {
+				// この座標での戦いは完了。次の座標に戦いを移す。
+				if (shiftXArray[c.x + 2].length == 0) {
+					// このY軸での戦いは終了。上の軸に移動。
+					if (c.y == 0) {
+						// すべての戦いが終了。
+						// TODO something finish.
+				    alert("すべてのソートが完了");
+						return;
+					} else {
+						c.x = 0;
+						c.y = c.y - 1;
+					}
+				} else {
+					c.x + 2;
+				}
+			} else {
+				// この座標での戦いを続行。
+				// do nothing
+			}
+
+			// 次の戦いの準備
+			member1 = yArray[c.y][c.x][0];
+			member2 = yArray[c.y][c.x + 1][0];
+			updateDisplay(member1, member2);
 		}
 		function shuffle(array) {
 			var n = array.length, t, i;
@@ -56,82 +110,13 @@
 		  }
 		  return array;
 		}
-		function stepExecSort(isDrow, isWin){
-			updateMaxMin(isDrow, isWin);
-			var isFinishedSort = pushSortedAndPrepareNextTmpIfNeeded();
-			if (isFinishedSort) {
-				// TODO something
-				finishedSort();
-				return;
-			}
-			prepareNextBattle();
-		}
-		function updateMaxMin(isDrow, isWin) {
-			if (isDrow) {
-				tmp1.max = tmp1.battleRank;
-				tmp1.min = tmp1.battleRank;
-				return;
-			}
-			if (isWin) {
-				tmp1.max = tmp1.battleRank;
-			} else {
-				tmp1.min = tmp1.battleRank + 1;
-			}
-		}
-		function pushSortedAndPrepareNextTmpIfNeeded(isDrow, isWin) {
-			var isPushed = false;
-			if (tmp1.max == tmp1.min) {
-				if (isDrow) {
-					alert("drow fixed!");
-					sortedMember[tmp1.min].push(tmp1.member);
-				} else {
-					alert("fixed!");
-					// it means fixed rank
-					sortedMember.splice(tmp1.min, 0, [tmp1.member]);
-				}
-				isPushed = true;
-			}
 
-			if (isPushed) {
-				// prepare next temp
-				if (members.length == 0) {
-					// it means sorted all member now finished sort
-					return true;
-				}
-				var nextMember = members.pop();
-				tmp1 = new TempMember(nextMember, Math.floor(sortedMember.length / 2), sortedMember.length, 0);
-			} else {
-				tmp1.battleRank = Math.floor((tmp1.max + tmp1.min) / 2)
-			}
-			return false;
-		}
-		function prepareNextBattle() {
-			finishedSort();
-			var nextTargetRank = tmp1.battleRank;
-			alert(nextTargetRank);
-			updateDisplay(tmp1.member, sortedMember[nextTargetRank][0]);
-		}
-		function finishedSort() {
-			var tmpString = "";
-			for (var i = 0; i < sortedMember.length; i++) {
-				tmpString = tmpString + "/";
-				for (var j = 0; j < sortedMember[i].length; j++) {
-					tmpString = tmpString + sortedMember[i][j].name + "-";
-				}
-			}
-			alert("ソート完了" + tmpString);
-		}
-		$(document).ready(function(){
-			init();
-		});
-		function img1Click() {
-			stepExecSort(false, true);
+		function img1Click(winner) {
+			updateDisplay(members[0], members[1]);
+	    //alert("クリックされました");
 	  }
 		function img2Click() {
-			stepExecSort(false, false);
-	  }
-		function drowClick() {
-			stepExecSort(true, false);
+	    //alert("クリックされました");
 	  }
 		function updateDisplay(member1, member2) {
 			var mem1Name = document.getElementById("member1_name");
