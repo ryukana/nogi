@@ -17,7 +17,10 @@
 		</noscript>
 	</head>
 	<script type="text/javascript">
+	var member1 = [], member2 = [];
+	var isMember1BubbleStep = true, isMember2BubbleStep = false, isMergeStep = false;
 	var sortedMember = [];
+	var sortedMember1 = [], sortedMember2 = [];
 	var tmp1;
 	var cnt;
 		var Member = function(key, name, img) {
@@ -50,11 +53,20 @@
 		];
 		function init() {
 			members = shuffle(members);
+			member1 = members.slice(0, Math.floor(members.length / 2));
+			member2 = members.slice(Math.floor(members.length / 2), members.length);
+			members = member1;
+			initTmpChampAndChallengerFromMembers();
+		}
+		function initTmpChampAndChallengerFromMembers() {
 			var tmpChampion = members.pop();
 			sortedMember[0] = [tmpChampion];
 			var tmpChallenger = members.pop();
 			tmp1 = new TempMember(tmpChallenger, 0, sortedMember.length, 0);
 			updateDisplay(tmpChallenger, tmpChampion);
+		}
+		function initMergeFromMem12() {
+			updateDisplay(sortedMember1[0][0], sortedMember2[0][0]);
 		}
 		function shuffle(array) {
 			var n = array.length, t, i;
@@ -66,29 +78,37 @@
 		  }
 		  return array;
 		}
-		function stepExecSort(isDrow, isWin){
-			updateMaxMin(isDrow, isWin);
-			var isFinishedSort = pushSortedAndPrepareNextTmpIfNeeded();
-			if (isFinishedSort) {
-				// TODO something
-				finishedSort();
-				return;
+		function stepExecSort(isDrow, isLeftWin){
+			if (isMergeStep) {
+				var isFinishMerge = pushSortedAndPrepareNextIfNeeded4Merge(isDrow, isLeftWin);
+				if (isFinishMerge) {
+					finishedSort();
+					return;
+				}
+				initMergeFromMem12();
+			} else {
+				updateMaxMin(isDrow, isLeftWin);
+				var isFinishedBubbleSort = pushSortedAndPrepareNextTmpIfNeeded4Bubble();
+				if (isFinishedBubbleSort) {
+					finishedBubbleSort();
+					return;
+				}
+				prepareNextBattle();
 			}
-			prepareNextBattle();
 		}
-		function updateMaxMin(isDrow, isWin) {
+		function updateMaxMin(isDrow, isLeftWin) {
 			if (isDrow) {
 				tmp1.max = tmp1.battleRank;
 				tmp1.min = tmp1.battleRank;
 				return;
 			}
-			if (isWin) {
+			if (isLeftWin) {
 				tmp1.max = tmp1.battleRank;
 			} else {
 				tmp1.min = tmp1.battleRank + 1;
 			}
 		}
-		function pushSortedAndPrepareNextTmpIfNeeded(isDrow, isWin) {
+		function pushSortedAndPrepareNextTmpIfNeeded4Bubble(isDrow, isLeftWin) {
 			var isPushed = false;
 			if (tmp1.max == tmp1.min) {
 				if (isDrow) {
@@ -113,9 +133,51 @@
 			}
 			return false;
 		}
+		function pushSortedAndPrepareNextIfNeeded4Merge(isDrow, isLeftWin) {
+			if (isDrow) {
+				sortedMember.push(sortedMember1.shift().concat(sortedMember2.shift()));
+			} else if (isLeftWin) {
+				sortedMember.push(sortedMember1.shift());
+				if (sortedMember1 == 0) {
+					sortedMember = sortedMember.concat(sortedMember2);
+					sortedMember2 = [];
+				}
+			} else {
+				sortedMember.push(sortedMember2.shift());
+				if (sortedMember2 == 0) {
+					sortedMember = sortedMember.concat(sortedMember1);
+					sortedMember1 = [];
+				}
+			}
+			if (sortedMember1.length == 0 && sortedMember2.length == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		function prepareNextBattle() {
 			var nextTargetRank = tmp1.battleRank;
 			updateDisplay(tmp1.member, sortedMember[nextTargetRank][0]);
+		}
+		function finishedBubbleSort() {
+			if (isMember1BubbleStep) {
+				alert("finished member1");
+				finishedSort();
+				isMember1BubbleStep = false;
+				isMember2BubbleStep = true;
+				members = member2;
+				sortedMember1 = sortedMember;
+				sortedMember = []
+				initTmpChampAndChallengerFromMembers();
+			} else if (isMember2BubbleStep) {
+				alert("finished member2");
+				finishedSort();
+				isMember2BubbleStep = false;
+				isMergeStep = true;
+				sortedMember2 = sortedMember;
+				sortedMember = [];
+				initMergeFromMem12();
+			}
 		}
 		function finishedSort() {
 			var tmpString = "";
@@ -130,10 +192,10 @@
 		$(document).ready(function(){
 			init();
 		});
-		function img1Click() {
+		function leftImgClick() {
 			stepExecSort(false, true);
 	  }
-		function img2Click() {
+		function rightImgClick() {
 			stepExecSort(false, false);
 	  }
 		function drowClick() {
@@ -193,10 +255,10 @@
 						</tr>
 							<tr>
 								<td>
-									<a href ="JavaScript:img1Click()" class="image nogi"><img id="member1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a>
+									<a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a>
 								</td>
 								<td>
-									<a href ="JavaScript:img2Click()" class="image nogi"><img id="member2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a>
+									<a href ="JavaScript:rightImgClick()" class="image nogi"><img id="member2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a>
 								</td>
 							</tr>
 						</table>
