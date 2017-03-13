@@ -88,7 +88,7 @@
 				initMergeFromMem12();
 			} else {
 				updateMaxMin(isDrow, isLeftWin);
-				var isFinishedBubbleSort = pushSortedAndPrepareNextTmpIfNeeded4Bubble();
+				var isFinishedBubbleSort = pushSortedAndPrepareNextTmpIfNeeded4Bubble(isDrow, isLeftWin);
 				if (isFinishedBubbleSort) {
 					finishedBubbleSort();
 					return;
