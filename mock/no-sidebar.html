@@ -22,7 +22,7 @@
 	var sortedMember = [];
 	var sortedMember1 = [], sortedMember2 = [];
 	var tmp1;
-	var cnt;
+	var cnt = 0;
 		var Member = function(key, name, img) {
 			this.key = key;
 			this.name = name;
@@ -235,6 +235,11 @@
 			stepExecSort(true, false);
 	  }
 		function updateDisplay(member1, member2) {
+			cnt++;
+			var percentage = document.getElementById("percentage");
+			percentage.innerHTML = 100;
+			var battle = document.getElementById("battle");
+			battle.innerHTML = cnt;
 			var mem1Name = document.getElementById("member1_name");
 			mem1Name.innerHTML = member1.name;
 			var mem2Name = document.getElementById("member2_name");
@@ -275,7 +280,7 @@
 				<div class="row">
 					<section class="6u">
 						<header>
-							<h2>0% sorted</h2>
+							<h2><font id="percentage">0</font>% sorted. battle <font id="battle">0</font>.</h2>
 						</header>
 						<table border="10px" border-color"#0000000">
 						<tr>
