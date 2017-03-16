@@ -17,12 +17,15 @@
 		</noscript>
 	</head>
 	<script type="text/javascript">
-	var member1 = [], member2 = [];
-	var isMember1BubbleStep = true, isMember2BubbleStep = false, isMergeStep = false;
-	var sortedMember = [];
-	var sortedMember1 = [], sortedMember2 = [];
-	var tmp1;
-	var cnt = 0;
+		var member1 = [], member2 = [];
+		var isMember1BubbleStep = true, isMember2BubbleStep = false, isMergeStep = false;
+		var sortedMember = [];
+		var sortedMember1 = [], sortedMember2 = [];
+		var tmp1;
+		var cnt = 0;
+		var prevFixCnt = 1;
+		var memberLength = 0;
+		var percentage = 0;
 		var Member = function(key, name, img) {
 			this.key = key;
 			this.name = name;
@@ -85,6 +88,7 @@
 			new Member(998, "橋本奈々未", "images/nogi_prof/hashimotonanami_prof.jpg")
 		];
 		function init() {
+			memberLength = members.length;
 			members = shuffle(members);
 			member1 = members.slice(0, Math.floor(members.length / 2));
 			member2 = members.slice(Math.floor(members.length / 2), members.length);
@@ -112,6 +116,7 @@
 		  return array;
 		}
 		function stepExecSort(isDrow, isLeftWin){
+			updatePercentage();
 			if (isMergeStep) {
 				var isFinishMerge = pushSortedAndPrepareNextIfNeeded4Merge(isDrow, isLeftWin);
 				if (isFinishMerge) {
@@ -127,6 +132,17 @@
 					return;
 				}
 				prepareNextBattle();
+			}
+		}
+		function updatePercentage() {
+			if (isMember1BubbleStep) {
+				percentage = Math.floor(40 * (memberLength / 2 - members.length - 2) / (memberLength / 2)
+				+ 40 / (memberLength / 2) * ((cnt - prevFixCnt) / (Math.LOG2E * Math.log(sortedMember.length) + 1)));
+			} else if (isMember2BubbleStep) {
+				percentage = Math.floor(40 + 40 * (memberLength / 2 - members.length - 1) / (memberLength / 2)
+				+ 40 / (memberLength / 2) * ((cnt - prevFixCnt) / (Math.LOG2E * Math.log(sortedMember.length) + 1)));
+			} else if (isMergeStep) {
+				percentage = Math.floor(80 + 20 * (memberLength - (sortedMember1.length + sortedMember2.length)) / memberLength);
 			}
 		}
 		function updateMaxMin(isDrow, isLeftWin) {
@@ -154,6 +170,7 @@
 			}
 
 			if (isPushed) {
+				prevFixCnt = cnt;
 				// prepare next temp
 				if (members.length == 0) {
 					// it means sorted all member now finished sort
@@ -194,8 +211,6 @@
 		}
 		function finishedBubbleSort() {
 			if (isMember1BubbleStep) {
-				alert("finished member1");
-				finishedSort();
 				isMember1BubbleStep = false;
 				isMember2BubbleStep = true;
 				members = member2;
@@ -203,8 +218,6 @@
 				sortedMember = []
 				initTmpChampAndChallengerFromMembers();
 			} else if (isMember2BubbleStep) {
-				alert("finished member2");
-				finishedSort();
 				isMember2BubbleStep = false;
 				isMergeStep = true;
 				sortedMember2 = sortedMember;
@@ -236,8 +249,8 @@
 	  }
 		function updateDisplay(member1, member2) {
 			cnt++;
-			var percentage = document.getElementById("percentage");
-			percentage.innerHTML = 100;
+			var percentageHtml = document.getElementById("percentage");
+			percentageHtml.innerHTML = percentage;
 			var battle = document.getElementById("battle");
 			battle.innerHTML = cnt;
 			var mem1Name = document.getElementById("member1_name");
