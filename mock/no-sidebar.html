@@ -226,14 +226,25 @@
 			}
 		}
 		function finishedSort() {
-			var tmpString = "";
+			var html =
+				"<table>" +
+					"<tr>" +
+						"<th>順位</th>" +
+						"<th>名前</th>" +
+					"</tr>";
 			for (var i = 0; i < sortedMember.length; i++) {
-				tmpString = tmpString + "/";
 				for (var j = 0; j < sortedMember[i].length; j++) {
-					tmpString = tmpString + sortedMember[i][j].name + "-";
+					var rank = i + 1;
+					html = html +
+						"<tr>" +
+							"<td>" + rank + "</td>" +
+							"<td>" + sortedMember[i][j].name + "</td>" +
+						"</tr>";
 				}
 			}
-			alert("ソート完了" + tmpString);
+			html = html +	"</table>";
+			var contentsHtml = document.getElementById("contents_area");
+			contentsHtml.innerHTML = html;
 		}
 		$(document).ready(function(){
 			init();
@@ -291,7 +302,7 @@
 			<div id="content" class="container">
 
 				<div class="row">
-					<section class="6u">
+					<section class="6u" id="contents_area">
 						<header>
 							<h2><font id="percentage">0</font>% sorted. battle <font id="battle">0</font>.</h2>
 						</header>
