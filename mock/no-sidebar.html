@@ -87,7 +87,13 @@
 			new Member(999, "深川麻衣", "images/nogi_prof/fukagawamai_prof.jpg"),
 			new Member(998, "橋本奈々未", "images/nogi_prof/hashimotonanami_prof.jpg")
 		];
+		function preloadImg(memberArray) {
+			for(var i = 0; i< memberArray.length; i++){
+				$("<img>").attr("src", memberArray[i].img);
+			}
+		}
 		function init() {
+			preloadImg(members);
 			memberLength = members.length;
 			members = shuffle(members);
 			member1 = members.slice(0, Math.floor(members.length / 2));
