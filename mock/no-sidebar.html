@@ -22,6 +22,7 @@
 		</noscript>
 	</head>
 	<script type="text/javascript">
+		var isFirstWindowFix = true;
 		var member1 = [], member2 = [];
 		var isMember1BubbleStep = true, isMember2BubbleStep = false, isMergeStep = false;
 		var sortedMember = [];
@@ -336,7 +337,7 @@
 						</table>
 
 
-						<div class="bb-custom-grid" id="bb-custom-grid">
+						<ul class="bb-custom-grid" id="bb-custom-grid">
 							<table width="100%">
 								<tr>
 									<td>
@@ -349,14 +350,14 @@
 								<tr>
 									<td width="50%">
 										<div class="bb-bookblock" id="image1BookBlock">
-											<div class="bb-item"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a></div>
-											<div class="bb-item"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a></div>
+											<div class="bb-item" id="member1_1_img"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a></div>
+											<div class="bb-item" id="member1_2_img"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a></div>
 										</div>
 									</td>
 									<td width="50%">
 										<div class="bb-bookblock" id="image2BookBlock">
-											<div class="bb-item"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member2_1_img" src="images/nogi_prof/matsuirena_prof.jpg"></a></div>
-											<div class="bb-item"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member2_2_img" src="images/nogi_prof/hatanakaseira_prof.jpg"></a></div>
+											<div class="bb-item" id="member2_1_img"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member2_1_img" src="images/nogi_prof/matsuirena_prof.jpg"></a></div>
+											<div class="bb-item" id="member2_2_img"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member2_2_img" src="images/nogi_prof/hatanakaseira_prof.jpg"></a></div>
 										</div>
 									</td>
 								</tr>
@@ -420,9 +421,32 @@
 								$nav = $bookBlock.next().children( 'span' ),
 								bb = $bookBlock.bookblock( {
 									speed : 200,
-									shadows : false
+									shadows : true
 								} );
 							$('#member1_img').on('click',function(){
+								if (isFirstWindowFix) {
+									isFirstWindowFix = false;
+								  // var image = $('#member1_1_img');
+									var image1BookBlock = $('#image1BookBlock');
+									var image2BookBlock = $('#image2BookBlock');
+									var member1_1_img = $('#member1_1_img');
+									var member1_2_img = $('#member1_2_img');
+									var member2_1_img = $('#member2_1_img');
+									var member2_2_img = $('#member2_2_img');
+									image1BookBlock.height(image1BookBlock.height());
+									image1BookBlock.width(image1BookBlock.width());
+									image2BookBlock.height(image1BookBlock.height());
+									image2BookBlock.width(image1BookBlock.width());
+									member1_1_img.height(image1BookBlock.height());
+									member1_1_img.width(image1BookBlock.width());
+									member1_2_img.height(image1BookBlock.height());
+									member1_2_img.width(image1BookBlock.width());
+									member2_1_img.height(image1BookBlock.height());
+									member2_1_img.width(image1BookBlock.width());
+									member2_2_img.height(image1BookBlock.height());
+									member2_2_img.width(image1BookBlock.width());
+								}
+
 								$bookBlock.bookblock( 'jump', 2 );
 								$bookBlock.bookblock( 'first' );
 							});
@@ -434,15 +458,6 @@
 		</script>
 		<script>
 				Page.init();
-				$(function() {
-				  var image = $('#member1_1_img');
-					var image1BookBlock = $('#image1BookBlock');
-					var image2BookBlock = $('#image2BookBlock');
-					image1BookBlock.height(image.height());
-					image1BookBlock.width(image.width());
-					image2BookBlock.height(image.height());
-					image2BookBlock.width(image.width());}
-				);
 		</script>
 	</body>
 </html>
