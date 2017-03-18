@@ -280,10 +280,14 @@
 			mem1Name.innerHTML = member1.name;
 			var mem2Name = document.getElementById("member2_name");
 			mem2Name.innerHTML = member2.name;
-			var mem1Img = document.getElementById("member1_img");
-			mem1Img.src = member1.img;
-			var mem2Img = document.getElementById("member2_img");
-			mem2Img.src = member2.img;
+			var mem1_1Img = document.getElementById("member1_1_img");
+			var mem1_2Img = document.getElementById("member1_2_img");
+			var mem2_1Img = document.getElementById("member2_1_img");
+			var mem2_2Img = document.getElementById("member2_2_img");
+			mem1_1Img.src = mem1_2Img.src;
+			mem1_2Img.src = member1.img;
+			mem2_1Img.src = mem2_2Img.src;
+			mem2_2Img.src = member2.img;
 		}
   </script>
 	<body>
@@ -317,25 +321,6 @@
 						<header>
 							<h2><font id="percentage">0</font>% sorted. Battle <font id="battle">0</font>.</h2>
 						</header>
-						<table border="10px" border-color"#0000000">
-						<tr>
-							<td>
-								<div id="member1_name">秋元真夏</div>
-							</td>
-							<td>
-								<div id="member2_name">斎藤飛鳥</div>
-							</td>
-						</tr>
-							<tr>
-								<td>
-									<a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a>
-								</td>
-								<td>
-									<a href ="JavaScript:rightImgClick()" class="image nogi"><img id="member2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a>
-								</td>
-							</tr>
-						</table>
-
 
 						<ul class="bb-custom-grid" id="bb-custom-grid">
 							<table width="100%">
@@ -350,20 +335,20 @@
 								<tr>
 									<td width="50%">
 										<div class="bb-bookblock" id="image1BookBlock">
-											<div class="bb-item" id="member1_1_img"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a></div>
-											<div class="bb-item" id="member1_2_img"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a></div>
+											<div class="bb-item"><a href ="JavaScript:" class="image nogi"><img id="member1_1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a></div>
+											<div class="bb-item"><a href ="JavaScript:" class="image nogi"><img id="member1_2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a></div>
 										</div>
 									</td>
 									<td width="50%">
 										<div class="bb-bookblock" id="image2BookBlock">
-											<div class="bb-item" id="member2_1_img"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member2_1_img" src="images/nogi_prof/matsuirena_prof.jpg"></a></div>
-											<div class="bb-item" id="member2_2_img"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member2_2_img" src="images/nogi_prof/hatanakaseira_prof.jpg"></a></div>
+											<div class="bb-item"><a href ="JavaScript:" class="image nogi"><img id="member2_1_img" src="images/nogi_prof/matsuirena_prof.jpg"></a></div>
+											<div class="bb-item"><a href ="JavaScript:" class="image nogi"><img id="member2_2_img" src="images/nogi_prof/hatanakaseira_prof.jpg"></a></div>
 										</div>
 									</td>
 								</tr>
 							</table>
 						</ul>
-						<a href="JavaScript:drowClick()" class="button button-style1">DROW</a>
+						<a href="JavaScript:" class="button button-style1" id="drowButton">DROW</a>
 					</section>
 					</div>
 				</div>
@@ -414,6 +399,41 @@
 		<script>
 			var Page = (function() {
 				var $grid = $( '#bb-custom-grid' );
+				var fixBBAreaIfNeeded = function() {
+					if (isFirstWindowFix) {
+						isFirstWindowFix = false;
+						var image1BookBlock = $('#image1BookBlock');
+						var image2BookBlock = $('#image2BookBlock');
+						image1BookBlock.height(image1BookBlock.height());
+						image1BookBlock.width(image1BookBlock.width());
+						image2BookBlock.height(image1BookBlock.height());
+						image2BookBlock.width(image1BookBlock.width());
+					}
+				}
+				$('#image1BookBlock').on('click',function(){
+					fixBBAreaIfNeeded();
+					leftImgClick();
+					$grid.find( 'div.bb-bookblock' ).each( function( i ) {
+						var $bookBlock = $( this );
+						$bookBlock.bookblock('next');
+					});
+				});
+				$('#image2BookBlock').on('click',function(){
+					fixBBAreaIfNeeded();
+					rightImgClick();
+					$grid.find( 'div.bb-bookblock' ).each( function( i ) {
+						var $bookBlock = $( this );
+						$bookBlock.bookblock('next');
+					});
+				});
+				$('#drowButton').on('click',function(){
+					fixBBAreaIfNeeded();
+					drowClick();
+					$grid.find( 'div.bb-bookblock' ).each( function( i ) {
+						var $bookBlock = $( this );
+						$bookBlock.bookblock('next');
+					});
+				});
 				return {
 					init : function() {
 						$grid.find( 'div.bb-bookblock' ).each( function( i ) {
@@ -423,33 +443,6 @@
 									speed : 200,
 									shadows : true
 								} );
-							$('#member1_img').on('click',function(){
-								if (isFirstWindowFix) {
-									isFirstWindowFix = false;
-								  // var image = $('#member1_1_img');
-									var image1BookBlock = $('#image1BookBlock');
-									var image2BookBlock = $('#image2BookBlock');
-									var member1_1_img = $('#member1_1_img');
-									var member1_2_img = $('#member1_2_img');
-									var member2_1_img = $('#member2_1_img');
-									var member2_2_img = $('#member2_2_img');
-									image1BookBlock.height(image1BookBlock.height());
-									image1BookBlock.width(image1BookBlock.width());
-									image2BookBlock.height(image1BookBlock.height());
-									image2BookBlock.width(image1BookBlock.width());
-									member1_1_img.height(image1BookBlock.height());
-									member1_1_img.width(image1BookBlock.width());
-									member1_2_img.height(image1BookBlock.height());
-									member1_2_img.width(image1BookBlock.width());
-									member2_1_img.height(image1BookBlock.height());
-									member2_1_img.width(image1BookBlock.width());
-									member2_2_img.height(image1BookBlock.height());
-									member2_2_img.width(image1BookBlock.width());
-								}
-
-								$bookBlock.bookblock( 'jump', 2 );
-								$bookBlock.bookblock( 'first' );
-							});
 						});
 					}
 				};
