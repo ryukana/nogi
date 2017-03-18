@@ -22,7 +22,6 @@
 		</noscript>
 	</head>
 	<script type="text/javascript">
-		var isFirstWindowFix = true;
 		var member1 = [], member2 = [];
 		var isMember1BubbleStep = true, isMember2BubbleStep = false, isMergeStep = false;
 		var sortedMember = [];
@@ -261,6 +260,14 @@
 		$(document).ready(function(){
 			init();
 		});
+		$(window).load(function() {
+			var image1BookBlock = $('#image1BookBlock');
+			var image2BookBlock = $('#image2BookBlock');
+			image1BookBlock.height($('#member1_2_img').height());
+			image1BookBlock.width($('#member1_2_img').width());
+			image2BookBlock.height($('#member1_2_img').height());
+			image2BookBlock.width($('#member1_2_img').width());
+		});
 		function leftImgClick() {
 			stepExecSort(false, true);
 	  }
@@ -399,46 +406,30 @@
 		<script>
 			var Page = (function() {
 				var $grid = $( '#bb-custom-grid' );
-				var fixBBAreaIfNeeded = function() {
-					if (isFirstWindowFix) {
-						isFirstWindowFix = false;
-						var image1BookBlock = $('#image1BookBlock');
-						var image2BookBlock = $('#image2BookBlock');
-						image1BookBlock.height(image1BookBlock.height());
-						image1BookBlock.width(image1BookBlock.width());
-						image2BookBlock.height(image1BookBlock.height());
-						image2BookBlock.width(image1BookBlock.width());
+				var executeAnimationIfNeeded = function(){
+					if($('#member1_1_img').attr("src").indexOf($('#member1_2_img').attr("src")) < 0) {
+						$('#image1BookBlock').bookblock('next');
+					}
+					if($('#member2_1_img').attr("src").indexOf($('#member2_2_img').attr("src")) < 0) {
+						$('#image2BookBlock').bookblock('next');
 					}
 				}
 				$('#image1BookBlock').on('click',function(){
-					fixBBAreaIfNeeded();
 					leftImgClick();
-					$grid.find( 'div.bb-bookblock' ).each( function( i ) {
-						var $bookBlock = $( this );
-						$bookBlock.bookblock('next');
-					});
+					executeAnimationIfNeeded();
 				});
 				$('#image2BookBlock').on('click',function(){
-					fixBBAreaIfNeeded();
 					rightImgClick();
-					$grid.find( 'div.bb-bookblock' ).each( function( i ) {
-						var $bookBlock = $( this );
-						$bookBlock.bookblock('next');
-					});
+					executeAnimationIfNeeded();
 				});
 				$('#drowButton').on('click',function(){
-					fixBBAreaIfNeeded();
 					drowClick();
-					$grid.find( 'div.bb-bookblock' ).each( function( i ) {
-						var $bookBlock = $( this );
-						$bookBlock.bookblock('next');
-					});
+					executeAnimationIfNeeded();
 				});
 				return {
 					init : function() {
 						$grid.find( 'div.bb-bookblock' ).each( function( i ) {
 							var $bookBlock = $( this ),
-								$nav = $bookBlock.next().children( 'span' ),
 								bb = $bookBlock.bookblock( {
 									speed : 200,
 									shadows : true
