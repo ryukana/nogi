@@ -10,6 +10,11 @@
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-panels.min.js"></script>
 		<script src="js/init.js"></script>
+		<script src="js/modernizr.custom.js"></script>
+		<!-- <link rel="stylesheet" type="text/css" href="css/default.css" /> -->
+		<link rel="stylesheet" type="text/css" href="css/bookblock.css" />
+		<!-- custom demo style -->
+		<link rel="stylesheet" type="text/css" href="css/demo5.css" />
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -281,7 +286,6 @@
 		}
   </script>
 	<body>
-
 	<!-- Header -->
 		<div id="header">
 			<div id="nav-wrapper">
@@ -330,10 +334,38 @@
 								</td>
 							</tr>
 						</table>
+
+
+						<div class="bb-custom-grid" id="bb-custom-grid">
+							<table width="100%">
+								<tr>
+									<td>
+										<div id="member1_name">秋元真夏</div>
+									</td>
+									<td>
+										<div id="member2_name">斎藤飛鳥</div>
+									</td>
+								</tr>
+								<tr>
+									<td width="50%">
+										<div class="bb-bookblock" id="image1BookBlock">
+											<div class="bb-item"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_1_img" src="images/nogi_prof/akimotomanatsu_prof.jpg"></a></div>
+											<div class="bb-item"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member1_2_img" src="images/nogi_prof/saitouasuka_prof.jpg"></a></div>
+										</div>
+									</td>
+									<td width="50%">
+										<div class="bb-bookblock" id="image2BookBlock">
+											<div class="bb-item"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member2_1_img" src="images/nogi_prof/matsuirena_prof.jpg"></a></div>
+											<div class="bb-item"><a href ="JavaScript:leftImgClick()" class="image nogi"><img id="member2_2_img" src="images/nogi_prof/hatanakaseira_prof.jpg"></a></div>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</ul>
 						<a href="JavaScript:drowClick()" class="button button-style1">DROW</a>
 					</section>
+					</div>
 				</div>
-
 			</div>
 		</div>
 
@@ -375,7 +407,42 @@
 				</section>
 			</div>
 		</div>
-	<!-- /Footer -->
+		<!-- /Footer -->
+		<script src="js/jquerypp.custom.js"></script>
+		<script src="js/jquery.bookblock.js"></script>
+		<script>
+			var Page = (function() {
+				var $grid = $( '#bb-custom-grid' );
+				return {
+					init : function() {
+						$grid.find( 'div.bb-bookblock' ).each( function( i ) {
+							var $bookBlock = $( this ),
+								$nav = $bookBlock.next().children( 'span' ),
+								bb = $bookBlock.bookblock( {
+									speed : 200,
+									shadows : false
+								} );
+							$('#member1_img').on('click',function(){
+								$bookBlock.bookblock( 'jump', 2 );
+								$bookBlock.bookblock( 'first' );
+							});
+						});
+					}
+				};
 
+			})();
+		</script>
+		<script>
+				Page.init();
+				$(function() {
+				  var image = $('#member1_1_img');
+					var image1BookBlock = $('#image1BookBlock');
+					var image2BookBlock = $('#image2BookBlock');
+					image1BookBlock.height(image.height());
+					image1BookBlock.width(image.width());
+					image2BookBlock.height(image.height());
+					image2BookBlock.width(image.width());}
+				);
+		</script>
 	</body>
 </html>
