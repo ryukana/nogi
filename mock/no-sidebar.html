@@ -244,12 +244,13 @@
 						"<th>Rank</th>" +
 						"<th>Name</th>" +
 					"</tr>";
-			for (var i = 0; i < sortedMember.length; i++) {
-				for (var j = 0; j < sortedMember[i].length; j++) {
-					var rank = i + 1;
+
+			for (var i = 0, rank = 1; i < sortedMember.length; i++) {
+				var thisRank = rank;
+				for (var j = 0; j < sortedMember[i].length; j++, rank++) {
 					html = html +
 						"<tr>" +
-							"<td>" + rank + "</td>" +
+							"<td>" + thisRank + "</td>" +
 							"<td>" + sortedMember[i][j].name + "</td>" +
 						"</tr>";
 				}
