@@ -132,7 +132,7 @@
 				var isFinishMerge = pushSortedAndPrepareNextIfNeeded4Merge(isDrow, isLeftWin);
 				if (isFinishMerge) {
 					finishedSort();
-					return;
+					return true;
 				}
 				initMergeFromMem12();
 			} else {
@@ -140,10 +140,11 @@
 				var isFinishedBubbleSort = pushSortedAndPrepareNextTmpIfNeeded4Bubble(isDrow, isLeftWin);
 				if (isFinishedBubbleSort) {
 					finishedBubbleSort();
-					return;
+					return false;
 				}
 				prepareNextBattle();
 			}
+			return false;
 		}
 		function updatePercentage() {
 			if (isMember1BubbleStep) {
@@ -240,8 +241,8 @@
 			var html =
 				"<table>" +
 					"<tr>" +
-						"<th>順位</th>" +
-						"<th>名前</th>" +
+						"<th>Rank</th>" +
+						"<th>Name</th>" +
 					"</tr>";
 			for (var i = 0; i < sortedMember.length; i++) {
 				for (var j = 0; j < sortedMember[i].length; j++) {
@@ -273,13 +274,13 @@
 			image2BookBlock.width($('#member1_2_img').width());
 		});
 		function leftImgClick() {
-			stepExecSort(false, true);
+			return stepExecSort(false, true);
 	  }
 		function rightImgClick() {
-			stepExecSort(false, false);
+			return stepExecSort(false, false);
 	  }
 		function drowClick() {
-			stepExecSort(true, false);
+			return stepExecSort(true, false);
 	  }
 		function updateDisplay(member1, member2) {
 			cnt++;
@@ -330,7 +331,8 @@
 				<div class="row">
 					<section class="6u">
 						<header>
-							<h2><font id="percentage">0</font>% sorted. Battle <font id="battle">0</font>.</h2>
+							<h2>Progress : <font id="percentage">0</font>%</h2>
+							#<font id="battle">0</font>
 						</header>
 
 						<ul class="bb-custom-grid" id="bb-custom-grid">
@@ -423,16 +425,19 @@
 					}
 				}
 				$('#image1BookBlock').on('click',function(){
-					leftImgClick();
-					executeAnimationIfNeeded();
+					if(!leftImgClick()) {
+						executeAnimationIfNeeded();
+					}
 				});
 				$('#image2BookBlock').on('click',function(){
-					rightImgClick();
-					executeAnimationIfNeeded();
+					if(!rightImgClick()) {
+						executeAnimationIfNeeded();
+					}
 				});
 				$('#drowButton').on('click',function(){
-					drowClick();
-					executeAnimationIfNeeded();
+					if(!drowClick()) {
+						executeAnimationIfNeeded();
+					}
 				});
 				return {
 					init : function() {
