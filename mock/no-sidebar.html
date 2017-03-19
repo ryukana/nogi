@@ -254,8 +254,12 @@
 				}
 			}
 			html = html +	"</table>";
-			var contentsHtml = document.getElementById("contents_area");
-			contentsHtml.innerHTML = html;
+			var percentageHtml = document.getElementById("percentage");
+			percentageHtml.innerHTML = 100;
+			var battle = document.getElementById("battle");
+			battle.innerHTML = cnt;
+			var sorterArea = document.getElementById("bb-custom-grid");
+			sorterArea.innerHTML = html;
 		}
 		$(document).ready(function(){
 			init();
@@ -324,7 +328,7 @@
 			<div id="content" class="container">
 
 				<div class="row">
-					<section class="6u" id="contents_area">
+					<section class="6u">
 						<header>
 							<h2><font id="percentage">0</font>% sorted. Battle <font id="battle">0</font>.</h2>
 						</header>
@@ -353,9 +357,13 @@
 										</div>
 									</td>
 								</tr>
+									<td colspan="2">
+										<a href="JavaScript:" class="button drow" id="drowButton">DROW</a>
+									</td>
+								<tr>
+							</tr>
 							</table>
 						</ul>
-						<a href="JavaScript:" class="button button-style1" id="drowButton">DROW</a>
 					</section>
 					</div>
 				</div>
