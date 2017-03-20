@@ -1,0 +1,24 @@
+.default {
+	margin:0.5em;
+	background: #eee;
+	/*border: 1px solid #111;*/
+	border-radius: 0.25em;
+	overflow: hidden;
+	/*box-shadow: 0 0 5px #333;*/
+}
+/*.default {
+	background: #292929;
+	border: 1px solid #111;
+	border-radius: 5px;
+	overflow: hidden;
+	box-shadow: 0 0 5px #333;
+}*/
+.default div {
+	background-color: #BA90CE;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#BA90CE), to(#BA90CE));
+	background: -webkit-linear-gradient(top, #BA90CE, #BA90CE);
+	background: -moz-linear-gradient(top, #BA90CE, #BA90CE);
+	background: -ms-linear-gradient(top, #BA90CE, #BA90CE);
+	background: -o-linear-gradient(top, #BA90CE, #BA90CE);
+	color: #fff !important;
+}
